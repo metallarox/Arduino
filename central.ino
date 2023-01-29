@@ -73,15 +73,14 @@ void loop() {
 void open() {
 	digitalWrite(lampPin, HIGH);					// ON Walking gate lamp
 	digitalWrite(latchPin, HIGH);					// On Latch
-	digitalWrite(openLeftPin, HIGH);				// ON L open
+	digitalWrite(openLeftPin, HIGH);				// ON Left open
 	delay(delayStep);								// Delay step time
-	digitalWrite(openRightPin, HIGH);				// ON R open
+	digitalWrite(openRightPin, HIGH);				// ON Right open
 	delay(delayCycle);								// Delay cycle time
-	digitalWrite(latchPin, LOW);					// OFF latch
-	digitalWrite(openLeftPin, LOW);					// OFF L open
-	digitalWrite(openRightPin, LOW);				// OFF R open
-	digitalWrite(lampPin, LOW);						// OFF walking gate lamp
-
+	digitalWrite(latchPin, LOW);					// OFF Latch
+	digitalWrite(openLeftPin, LOW);					// OFF Left open
+	digitalWrite(openRightPin, LOW);				// OFF Right open
+	digitalWrite(lampPin, LOW);						// OFF Walking gate lamp
 }
 
 void close() {
@@ -89,10 +88,10 @@ void close() {
 	digitalWrite(latchPin, HIGH);					// On Latch
 	digitalWrite(closeLeftPin, HIGH);				// ON Left close
 	delay(delayStep);								// Delay step from one side to open
-	digitalWrite(closeRightPin, HIGH);				// ON R close
-	delay(delayCycle);								// Delay
-	digitalWrite(latchPin, LOW);					// OFF latch
-	digitalWrite(closeLeftPin, LOW);				// OFF L close
-	digitalWrite(closeRightPin, LOW);				// OFF R close
-	digitalWrite(lampPin, LOW);						// OFF walking gate lamp
+	digitalWrite(closeRightPin, HIGH);				// ON Right close
+	delay(delayCycle);								// Delay cycle time
+	digitalWrite(latchPin, LOW);					// OFF Latch
+	digitalWrite(closeLeftPin, LOW);				// OFF Left close
+	digitalWrite(closeRightPin, LOW);				// OFF Right close
+	digitalWrite(lampPin, LOW);						// OFF Walking gate lamp
 }
