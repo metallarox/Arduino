@@ -1,7 +1,7 @@
 /*
 	Author:		Parussini Elia
 	Co-Author:	Romano Federico
-	eMail:		mail@mail.com
+	eMail:		elia.parussini@gmail.com
 	eMail:		federicoromano1999@gmail.com
 
 	Title:
