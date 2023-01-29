@@ -30,20 +30,19 @@
 	D13
 */
 
-#define delayCycle 30000
-#define delayStep 1000
+#define delayCycle 30000							// Opening/closing gate total time
+#define delayStep 1000								// Time to wait until start the other gate side
 
+// Pins defining
 // Gate Motors Pin
-#define openLeftPin 2
-#define closeLeftPin 3
-#define openRightPin 4
-#define closeRightPin 5
+#define openLeftPin 2								// K1, Open the left gate
+#define closeLeftPin 3								// K2, Close the left gate
+#define openRightPin 4								// K3, Open the right gate
+#define closeRightPin 5								// K4, Close the right gate
 
-// Latch
-#define latchPin 6
+#define latchPin 6									// K5, Latch to lock the whole gate
 
-// Walking gate lamp
-#define lampPin 7
+#define lampPin 7									// K6, Walking gate lamp
 
 void setup() {
 	// Inputs
@@ -72,28 +71,28 @@ void loop() {
 }
 
 void open() {
-	digitalWrite(lampPin, HIGH);					//ON walking gate lamp
-	digitalWrite(latchPin, HIGH);					//On latch
-	digitalWrite(openLeftPin, HIGH);				//ON L open
-	delay(delayStep);								//delay 1 sec
-	digitalWrite(openRightPin, HIGH);				//ON R open
-	delay(delayCycle);
-	digitalWrite(latchPin, LOW);					//OFF latch
-	digitalWrite(openLeftPin, LOW);					//OFF L open
-	digitalWrite(openRightPin, LOW);				//OFF R open
-	digitalWrite(lampPin, LOW);						//OFF walking gate lamp
+	digitalWrite(lampPin, HIGH);					// ON Walking gate lamp
+	digitalWrite(latchPin, HIGH);					// On Latch
+	digitalWrite(openLeftPin, HIGH);				// ON L open
+	delay(delayStep);								// Delay step time
+	digitalWrite(openRightPin, HIGH);				// ON R open
+	delay(delayCycle);								// Delay cycle time
+	digitalWrite(latchPin, LOW);					// OFF latch
+	digitalWrite(openLeftPin, LOW);					// OFF L open
+	digitalWrite(openRightPin, LOW);				// OFF R open
+	digitalWrite(lampPin, LOW);						// OFF walking gate lamp
 
 }
 
 void close() {
-	digitalWrite(lampPin, HIGH);					//ON walking gate lamp
-	digitalWrite(latchPin, HIGH);					//On latch
-	digitalWrite(closeLeftPin, HIGH);				//ON L close
-	delay(delayStep);								//delay 1 sec
-	digitalWrite(closeRightPin, HIGH);				//ON R close
-	delay(delayCycle);
-	digitalWrite(latchPin, LOW);					//OFF latch
-	digitalWrite(closeLeftPin, LOW);				//OFF L close
-	digitalWrite(closeRightPin, LOW);				//OFF R close
-	digitalWrite(lampPin, LOW);						//OFF walking gate lamp
+	digitalWrite(lampPin, HIGH);					// ON Walking gate lamp
+	digitalWrite(latchPin, HIGH);					// On Latch
+	digitalWrite(closeLeftPin, HIGH);				// ON Left close
+	delay(delayStep);								// Delay step from one side to open
+	digitalWrite(closeRightPin, HIGH);				// ON R close
+	delay(delayCycle);								// Delay
+	digitalWrite(latchPin, LOW);					// OFF latch
+	digitalWrite(closeLeftPin, LOW);				// OFF L close
+	digitalWrite(closeRightPin, LOW);				// OFF R close
+	digitalWrite(lampPin, LOW);						// OFF walking gate lamp
 }
