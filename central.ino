@@ -16,8 +16,8 @@
 
 	D0 -> TX
 	D1 -> RX
-	D2 -> K1 L open
-	D3 -> K2 L close
+	D2 <- NC Light barrier
+	D3 <- NO Pulse
 	D4 -> K3 R open
 	D5 -> K4 R close
 	D6 -> K5 Latch
@@ -25,8 +25,8 @@
 	D8 -> K7 NC
 	D9 -> K8 NC
 	D10
-	D11 <- NC Light curtain 
-	D12 <- NO Pulse 
+	D11 -> K1 L open
+	D12 -> K2 L close
 	D13
 */
 
@@ -39,8 +39,8 @@
 
 // Pins defining
 // Gate Motors Pin
-#define openLeftPin 2								// K1, Open the left gate
-#define closeLeftPin 3								// K2, Close the left gate
+#define openLeftPin 11								// K1, Open the left gate
+#define closeLeftPin 12								// K2, Close the left gate
 #define openRightPin 4								// K3, Open the right gate
 #define closeRightPin 5								// K4, Close the right gate
 
@@ -48,16 +48,56 @@
 
 #define lampPin 7									// K6, Walking gate lamp
 
-#define barrierPin 11								// Light curtain, NC
-#define buttonPin 12								// Button key opener, NO
+//Interrupts
+#define barrierPin 2								// Light curtain, NC
+#define buttonPin 3									// Button key opener, NO
 
 // Globals
-char gateState;
+Gate gate;
+char emcy;
+
+// Timers
+unsiged long requestTime;
+
+class Gate{
+	public:
+		bool isMoving();
+		bool isOpen();
+		bool isClosed();
+		void stop();
+	private:
+		bool move;
+		bool state;
+};
+
+bool Gate::isMoving(){
+	return Gate::move;
+}
+
+bool Gate::isOpen(){
+	return state;
+}
+
+bool Gate::isClosed(){
+	return !state;
+}
+
+void stop(){
+	digitalWrite(openLeftPin, LOW);
+	digitalWrite(openRightPin, LOW);
+	digitalWrite(closeLeftPin, LOW);
+	digitalWrite(closeRightPin, LOW);
+
+	Serial.println("The gate has been stopped");
+}
 
 void setup() {
+	//Pin definition
 	// Inputs
-	pinMode(barrierPin, INPUT);						// NC, barrier
-	pinMode(buttonPin, INPUT);						// NO Button key opener
+	pinMode(buttonPin, INPUT_PULLUP);				// NO Button key opener
+
+	// Interrupts
+	attachInterrupt(barrierPin, emcy, FALLING);		// NC, barrier
 
 	// Outputs
 	// Gate motors
@@ -77,13 +117,40 @@ void setup() {
 
 	// Initializing the serial communication
 	Serial.begin(9600);
+
+	// The contraption is not in emcy
+	emcy = false;
+
+	gate.setState(CLOSED);
 }
 
 void loop() {
-	gateState = CLOSED;
+	if(!emcy) {
+		// The machine is not in emergency state
+		if(!digitalRead(buttonPin)){
+			// There is a request from the button
+			//requestTime = millis();
+			if(gate.isOpen()){
+				close();
+			}
+			else if(gate.isclosed()){
+				open();
+			}
+			else if(gate.isMoving()){
+				// The gate is moving
+				gate.stop();
+			}
+		}
+
+	}
+	else {
+		Serial.write("There is something in the barrier");
+	}
+
 }
 
 void open() {
+	Serial.prinln("The gate is now opening");		// Opening message
 	digitalWrite(lampPin, HIGH);					// ON Walking gate lamp
 	digitalWrite(latchPin, HIGH);					// On Latch
 	digitalWrite(openLeftPin, HIGH);				// ON Left open
@@ -97,6 +164,7 @@ void open() {
 }
 
 void close() {
+	Serial.prinln("The gate is now opening");		// Closing message
 	digitalWrite(lampPin, HIGH);					// ON Walking gate lamp
 	digitalWrite(latchPin, HIGH);					// On Latch
 	digitalWrite(closeLeftPin, HIGH);				// ON Left close
@@ -107,4 +175,10 @@ void close() {
 	digitalWrite(closeLeftPin, LOW);				// OFF Left close
 	digitalWrite(closeRightPin, LOW);				// OFF Right close
 	digitalWrite(lampPin, LOW);						// OFF Walking gate lamp
+}
+
+
+void emcy() {
+	emcy = true;
+	gate.stop();
 }
