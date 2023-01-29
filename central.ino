@@ -52,19 +52,13 @@
 #define barrierPin 2								// Light curtain, NC
 #define buttonPin 3									// Button key opener, NO
 
-// Globals
-Gate gate;
-char emcy;
-
-// Timers
-unsiged long requestTime;
-
 class Gate{
 	public:
 		bool isMoving();
 		bool isOpen();
 		bool isClosed();
 		void stop();
+		void setState();
 	private:
 		bool move;
 		bool state;
@@ -82,7 +76,7 @@ bool Gate::isClosed(){
 	return !state;
 }
 
-void stop(){
+void Gate::stop(){
 	digitalWrite(openLeftPin, LOW);
 	digitalWrite(openRightPin, LOW);
 	digitalWrite(closeLeftPin, LOW);
@@ -91,13 +85,23 @@ void stop(){
 	Serial.println("The gate has been stopped");
 }
 
+void setState(state){
+	this
+}
+// Globals
+Gate gate;
+char emcy;
+
+// Timers
+unsigned long requestTime;
+
 void setup() {
 	//Pin definition
 	// Inputs
-	pinMode(buttonPin, INPUT_PULLUP);				// NO Button key opener
+	pinMode(buttonPin, INPUT_PULLUP);						// NO Button key opener
 
 	// Interrupts
-	attachInterrupt(barrierPin, emcy, FALLING);		// NC, barrier
+	attachInterrupt(barrierPin, emergency, FALLING);		// NC, barrier
 
 	// Outputs
 	// Gate motors
@@ -133,7 +137,7 @@ void loop() {
 			if(gate.isOpen()){
 				close();
 			}
-			else if(gate.isclosed()){
+			else if(gate.isClosed()){
 				open();
 			}
 			else if(gate.isMoving()){
@@ -150,35 +154,34 @@ void loop() {
 }
 
 void open() {
-	Serial.prinln("The gate is now opening");		// Opening message
-	digitalWrite(lampPin, HIGH);					// ON Walking gate lamp
-	digitalWrite(latchPin, HIGH);					// On Latch
-	digitalWrite(openLeftPin, HIGH);				// ON Left open
-	delay(delayStep);								// Delay step time
-	digitalWrite(openRightPin, HIGH);				// ON Right open
-	delay(delayCycle);								// Delay cycle time
-	digitalWrite(latchPin, LOW);					// OFF Latch
-	digitalWrite(openLeftPin, LOW);					// OFF Left open
-	digitalWrite(openRightPin, LOW);				// OFF Right open
-	digitalWrite(lampPin, LOW);						// OFF Walking gate lamp
+	Serial.println("The gate is now opening");				// Opening message
+	digitalWrite(lampPin, HIGH);							// ON Walking gate lamp
+	digitalWrite(latchPin, HIGH);							// On Latch
+	digitalWrite(openLeftPin, HIGH);						// ON Left open
+	delay(delayStep);										// Delay step time
+	digitalWrite(openRightPin, HIGH);						// ON Right open
+	delay(delayCycle);										// Delay cycle time
+	digitalWrite(latchPin, LOW);							// OFF Latch
+	digitalWrite(openLeftPin, LOW);							// OFF Left open
+	digitalWrite(openRightPin, LOW);						// OFF Right open
+	digitalWrite(lampPin, LOW);								// OFF Walking gate lamp
 }
 
 void close() {
-	Serial.prinln("The gate is now opening");		// Closing message
-	digitalWrite(lampPin, HIGH);					// ON Walking gate lamp
-	digitalWrite(latchPin, HIGH);					// On Latch
-	digitalWrite(closeLeftPin, HIGH);				// ON Left close
-	delay(delayStep);								// Delay step from one side to open
-	digitalWrite(closeRightPin, HIGH);				// ON Right close
-	delay(delayCycle);								// Delay cycle time
-	digitalWrite(latchPin, LOW);					// OFF Latch
-	digitalWrite(closeLeftPin, LOW);				// OFF Left close
-	digitalWrite(closeRightPin, LOW);				// OFF Right close
-	digitalWrite(lampPin, LOW);						// OFF Walking gate lamp
+	Serial.println("The gate is now opening");				// Closing message
+	digitalWrite(lampPin, HIGH);							// ON Walking gate lamp
+	digitalWrite(latchPin, HIGH);							// On Latch
+	digitalWrite(closeLeftPin, HIGH);						// ON Left close
+	delay(delayStep);										// Delay step from one side to open
+	digitalWrite(closeRightPin, HIGH);						// ON Right close
+	delay(delayCycle);										// Delay cycle time
+	digitalWrite(latchPin, LOW);							// OFF Latch
+	digitalWrite(closeLeftPin, LOW);						// OFF Left close
+	digitalWrite(closeRightPin, LOW);						// OFF Right close
+	digitalWrite(lampPin, LOW);								// OFF Walking gate lamp
 }
 
-
-void emcy() {
+void emergency() {
 	emcy = true;
 	gate.stop();
 }
