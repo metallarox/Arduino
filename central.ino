@@ -32,6 +32,9 @@
 
 #define delayCycle 30000							// Opening/closing gate total time
 #define delayStep 1000								// Time to wait until start the other gate side
+#define OPEN 0
+#define CLOSE 1
+#define MOVING 2
 
 // Pins defining
 // Gate Motors Pin
@@ -43,6 +46,9 @@
 #define latchPin 6									// K5, Latch to lock the whole gate
 
 #define lampPin 7									// K6, Walking gate lamp
+
+// Globals
+char gateState;
 
 void setup() {
 	// Inputs
@@ -67,6 +73,7 @@ void setup() {
 }
 
 void loop() {
+	bool gateState = CLOSED;
 
 }
 
