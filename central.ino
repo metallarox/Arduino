@@ -30,27 +30,26 @@
 	D13
 */
 
-#define delayCycle 30000							// Opening/closing gate total time
-#define delayStep 1000								// Time to wait until start the other gate side
+#define delayCycle 30000									// Opening/closing gate total time
+#define delayStep 1000										// Time to wait until start the other gate side
 
-#define OPEN 0										// The gate is open
-#define CLOSED 1									// The gate is close
-#define MOVING 2									// The gate is moving
+#define OPEN 0												// The gate is open
+#define CLOSED 1											// The gate is close
 
 // Pins defining
 // Gate Motors Pin
-#define openLeftPin 11								// K1, Open the left gate
-#define closeLeftPin 12								// K2, Close the left gate
-#define openRightPin 4								// K3, Open the right gate
-#define closeRightPin 5								// K4, Close the right gate
+#define openLeftPin 2										// K1, Open the left gate
+#define closeLeftPin 3										// K2, Close the left gate
+#define openRightPin 4										// K3, Open the right gate
+#define closeRightPin 5										// K4, Close the right gate
 
-#define latchPin 6									// K5, Latch to lock the whole gate
+#define latchPin 6											// K5, Latch to lock the whole gate
 
-#define lampPin 7									// K6, Walking gate lamp
+#define lampPin 7											// K6, Walking gate lamp
 
 //Interrupts
-#define barrierPin 2								// Light curtain, NC
-#define buttonPin 3									// Button key opener, NO
+#define barrierPin 11										// Light curtain, NC
+#define buttonPin 12										// Button key opener, NO
 
 class Gate{
 	public:
@@ -85,9 +84,10 @@ void Gate::stop(){
 	Serial.println("The gate has been stopped");
 }
 
-void setState(state){
-	this
+void setState(bool state){
+	this.state = state;
 }
+
 // Globals
 Gate gate;
 char emcy;
@@ -101,7 +101,8 @@ void setup() {
 	pinMode(buttonPin, INPUT_PULLUP);						// NO Button key opener
 
 	// Interrupts
-	attachInterrupt(barrierPin, emergency, FALLING);		// NC, barrier
+	//attachInterrupt(barrierPin, emergency, FALLING);		// NC, barrier
+	pinMode(barrierPin, INPUT_PULLUP);						// NC, barrier
 
 	// Outputs
 	// Gate motors
