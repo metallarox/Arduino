@@ -18,14 +18,33 @@
 	D13
 */
 
+//Clear errors on vscode
+void digitalWrite(int t1, bool t2);
+void delay(int t1);
+
+#define delayCycle 30000
+#define delayStep 1000
+
+// Gate Motors Pin
+#define openLeftPin 2
+#define closeLeftPin 3
+#define openRightPin 4
+#define closeRightPin 5
+
+// Latch
+#define latchPin 6
+
+// Walking gate lamp
+#define lampPin 7
+
 void setup() {
 	// Outputs
-	pinMode(2, OUTPUT);
-	pinMode(3, OUTPUT);
-	pinMode(4, OUTPUT);
-	pinMode(5, OUTPUT);
-	pinMode(6, OUTPUT);
-	pinMode(7, OUTPUT);
+	pinMode(openLeftPin, OUTPUT);
+	pinMode(closeLeftPin, OUTPUT);
+	pinMode(openRightPin, OUTPUT);
+	pinMode(closeRightPin, OUTPUT);
+	pinMode(latchPin, OUTPUT);
+	pinMode(lampPin, OUTPUT);
 	pinMode(8, OUTPUT);
 	pinMode(9, OUTPUT);
 
@@ -60,17 +79,31 @@ void loop() {
 	3 off L close
 	5 off R close
 */
-
-
-
 }
-
 
 void open(){
 
 }
 
-
 void close(){
-	
+/*
+	CLOSE
+	6 on latch
+	3 on L close
+	delay 1S
+	5 on R close
+	delay 30S
+	6 off latch
+	3 off L close
+	5 off R close
+*/
+
+	digitalWrite(latchPin, HIGH);					// Unlock the latch
+
+	digitalWrite(closeLeftPin, HIGH);				// Close left gate
+	delay(delayStep);
+	digitalWrite(closeRightPin, HIGH);
+	delay(delayCycle);
+	digitalWrite(closeLeftPin, LOW);				// Close left gate
+	digitalWrite(closeRightPin, LOW);
 }
