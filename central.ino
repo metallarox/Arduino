@@ -93,6 +93,19 @@ void Gate::setState(bool s){
 	state = s;
 }
 
+void setupRealyBoard(){
+	// Motors
+	digitalWrite(openLeftPin, RELAY_OFF);
+	digitalWrite(openRightPin, RELAY_OFF);
+	digitalWrite(closeLeftPin, RELAY_OFF);
+	digitalWrite(closeRightPin, RELAY_OFF);
+
+	digitalWrite(latchPin, RELAY_OFF);
+	digitalWrite(lampPin, RELAY_OFF);
+	digitalWrite(8, RELAY_OFF);
+	digitalWrite(9, RELAY_OFF);
+}
+
 // Globals
 Gate gate;
 char emcy;
@@ -125,14 +138,16 @@ void setup() {
 	pinMode(8, OUTPUT);
 	pinMode(9, OUTPUT);
 
-	// Initializing the serial communication
-	Serial.begin(9600);
+	setupRealyBoard();
 
 	// The contraption is not in emcy
 	emcy = false;
 
 	gate.stop();
 	gate.setState(CLOSED);
+
+	// Initializing the serial communication
+	Serial.begin(9600);
 }
 
 void loop() {
@@ -162,36 +177,36 @@ void loop() {
 
 void open() {
 	Serial.println("The gate is now opening");				// Opening message
-	digitalWrite(lampPin, RELAY_ON);							// ON Walking gate lamp
-	digitalWrite(latchPin, RELAY_ON);							// On Latch
-	digitalWrite(openLeftPin, RELAY_ON);						// ON Left open
+	digitalWrite(lampPin, RELAY_ON);						// ON Walking gate lamp
+	digitalWrite(latchPin, RELAY_ON);						// On Latch
+	digitalWrite(openLeftPin, RELAY_ON);					// ON Left open
 	Serial.println("Delay step");
 	delay(delayStep);										// Delay step time
-	digitalWrite(openRightPin, RELAY_ON);						// ON Right open
+	digitalWrite(openRightPin, RELAY_ON);					// ON Right open
 	Serial.println("Delay cycle");
 	delay(delayCycle);										// Delay cycle time
-	digitalWrite(latchPin, RELAY_OFF);							// OFF Latch
-	digitalWrite(openLeftPin, RELAY_OFF);							// OFF Left open
-	digitalWrite(openRightPin, RELAY_OFF);						// OFF Right open
-	digitalWrite(lampPin, RELAY_OFF);								// OFF Walking gate lamp
+	digitalWrite(latchPin, RELAY_OFF);						// OFF Latch
+	digitalWrite(openLeftPin, RELAY_OFF);					// OFF Left open
+	digitalWrite(openRightPin, RELAY_OFF);					// OFF Right open
+	digitalWrite(lampPin, RELAY_OFF);						// OFF Walking gate lamp
 	Serial.println("Fine");
 	gate.setState(OPEN);
 }
 
 void close() {
 	Serial.println("The gate is now closing");				// Closing message
-	digitalWrite(lampPin, RELAY_ON);							// ON Walking gate lamp
-	digitalWrite(latchPin, RELAY_ON);							// On Latch
-	digitalWrite(closeLeftPin, RELAY_ON);						// ON Left close
+	digitalWrite(lampPin, RELAY_ON);						// ON Walking gate lamp
+	digitalWrite(latchPin, RELAY_ON);						// On Latch
+	digitalWrite(closeLeftPin, RELAY_ON);					// ON Left close
 	Serial.println("Delay step");
 	delay(delayStep);										// Delay step from one side to open
-	digitalWrite(closeRightPin, RELAY_ON);						// ON Right close
+	digitalWrite(closeRightPin, RELAY_ON);					// ON Right close
 	Serial.println("Delay cycle");
 	delay(delayCycle);										// Delay cycle time
-	digitalWrite(latchPin, RELAY_OFF);							// OFF Latch
-	digitalWrite(closeLeftPin, RELAY_OFF);						// OFF Left close
-	digitalWrite(closeRightPin, RELAY_OFF);						// OFF Right close
-	digitalWrite(lampPin, RELAY_OFF);								// OFF Walking gate lamp
+	digitalWrite(latchPin, RELAY_OFF);						// OFF Latch
+	digitalWrite(closeLeftPin, RELAY_OFF);					// OFF Left close
+	digitalWrite(closeRightPin, RELAY_OFF);					// OFF Right close
+	digitalWrite(lampPin, RELAY_OFF);						// OFF Walking gate lamp
 	Serial.println("Fine");
 	gate.setState(CLOSED);
 }
