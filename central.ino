@@ -1,6 +1,18 @@
 /*
-	centralina piccolina del portoncino, carino, piccolino,
-	bello e pafuttelo, della calcelcestrruzza
+	Author:		Parussini Elia
+	Co-Author:	Romano Federico
+	eMail:		mail@mail.com
+	eMail:		federicoromano1999@gmail.com
+
+	Title:
+		Gate automation project
+	Description:
+		Centralina piccolina del portoncino, carino, piccolino,
+		bello e pafuttelo, della calcelcestruzzaggine
+*/
+
+/*
+	Pinout:
 
 	D0 -> TX
 	D1 -> RX
@@ -34,53 +46,32 @@
 #define lampPin 7
 
 void setup() {
-	// Outputs
-	pinMode(2, OUTPUT);
-	pinMode(3, OUTPUT);
-	pinMode(4, OUTPUT);
-	pinMode(5, OUTPUT);
-	pinMode(6, OUTPUT);
-	pinMode(7, OUTPUT);
-	pinMode(8, OUTPUT);
-	pinMode(9, OUTPUT);
-
 	// Inputs
 	pinMode(11, INPUT);
 	pinMode(12, INPUT);
+
+	// Outputs
+	// Gate motors
+	pinMode(openLeftPin, OUTPUT);
+	pinMode(closeLeftPin, OUTPUT);
+	pinMode(openRightPin, OUTPUT);
+	pinMode(closeRightPin, OUTPUT);
+
+	// Latch
+	pinMode(latchPin, OUTPUT);
+
+	// Lamp
+	pinMode(lampPin, OUTPUT);
+
+	pinMode(8, OUTPUT);
+	pinMode(9, OUTPUT);
 }
 
 void loop() {
-	/*
-	d12 on pulse
-	
-	OPEN
-	6 on latch
-	2 on L open
-	delay 1S
-	4 on R open
-	delay 30S
-	6 off 
-	2 off
-	4 off
-
-	delay 60S
-	
-	CLOSE
-	6 on latch
-	3 on L close
-	delay 1S
-	5 on R close
-	delay 30S
-	6 off latch
-	3 off L close
-	5 off R close
-*/
-
-
 
 }
 
-void open(){
+void open() {
 	digitalWrite(lampPin, HIGH);					//ON walking gate lamp
 	digitalWrite(latchPin, HIGH);					//On latch
 	digitalWrite(openLeftPin, HIGH);				//ON L open
@@ -94,7 +85,7 @@ void open(){
 
 }
 
-void close(){
+void close() {
 	digitalWrite(lampPin, HIGH);					//ON walking gate lamp
 	digitalWrite(latchPin, HIGH);					//On latch
 	digitalWrite(closeLeftPin, HIGH);				//ON L close
