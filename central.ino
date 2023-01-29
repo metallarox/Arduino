@@ -33,8 +33,8 @@
 #define delayCycle 30000									// Opening/closing gate total time
 #define delayStep 1000										// Time to wait until start the other gate side
 
-#define OPEN 0												// The gate is open
-#define CLOSED 1											// The gate is close
+#define CLOSED 0											// The gate is close
+#define OPEN 1												// The gate is open
 
 // Pins defining
 // Gate Motors Pin
