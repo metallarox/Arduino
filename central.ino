@@ -81,10 +81,10 @@ bool Gate::isClosed(){
 }
 
 void Gate::stop(){
-	digitalWrite(openLeftPin, LOW);
-	digitalWrite(openRightPin, LOW);
-	digitalWrite(closeLeftPin, LOW);
-	digitalWrite(closeRightPin, LOW);
+	digitalWrite(openLeftPin, RELAY_OFF);
+	digitalWrite(openRightPin, RELAY_OFF);
+	digitalWrite(closeLeftPin, RELAY_OFF);
+	digitalWrite(closeRightPin, RELAY_OFF);
 
 	Serial.println("The gate has been stopped");
 }
