@@ -32,9 +32,10 @@
 
 #define delayCycle 30000							// Opening/closing gate total time
 #define delayStep 1000								// Time to wait until start the other gate side
-#define OPEN 0
-#define CLOSE 1
-#define MOVING 2
+
+#define OPEN 0										// The gate is open
+#define CLOSED 1									// The gate is close
+#define MOVING 2									// The gate is moving
 
 // Pins defining
 // Gate Motors Pin
@@ -47,13 +48,16 @@
 
 #define lampPin 7									// K6, Walking gate lamp
 
+#define barrierPin 11								// Light curtain, NC
+#define buttonPin 12								// Button key opener, NO
+
 // Globals
 char gateState;
 
 void setup() {
 	// Inputs
-	pinMode(11, INPUT);
-	pinMode(12, INPUT);
+	pinMode(barrierPin, INPUT);						// NC, barrier
+	pinMode(buttonPin, INPUT);						// NO Button key opener
 
 	// Outputs
 	// Gate motors
@@ -70,11 +74,13 @@ void setup() {
 
 	pinMode(8, OUTPUT);
 	pinMode(9, OUTPUT);
+
+	// Initializing the serial communication
+	Serial.begin(9600);
 }
 
 void loop() {
-	bool gateState = CLOSED;
-
+	gateState = CLOSED;
 }
 
 void open() {
