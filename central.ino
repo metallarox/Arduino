@@ -18,6 +18,21 @@
 	D13
 */
 
+#define delayCycle 30000
+#define delayStep 1000
+
+// Gate Motors Pin
+#define openLeftPin 2
+#define closeLeftPin 3
+#define openRightPin 4
+#define closeRightPin 5
+
+// Latch
+#define latchPin 6
+
+// Walking gate lamp
+#define lampPin 7
+
 void setup() {
 	// Outputs
 	pinMode(2, OUTPUT);
@@ -67,10 +82,29 @@ void loop() {
 
 
 void open(){
+	digitalWrite(lampPin, HIGH);					//ON walking gate lamp
+	digitalWrite(latchPin, HIGH);					//On latch
+	digitalWtite(openLeftPin, HIGH);				//ON L open
+	delay(delayStep);								//delay 1 sec
+	digitalWrite(openRightPin, HIGH);				//ON R open
+	delay(delayCicle);
+	digitalWrite(latchPin, LOW);					//OFF latch
+	digitalwrite(openLeftPin, LOW);					//OFF L open
+	digitalwrite(openRightPin, LOW);				//OFF R open
+	digitalWrite(lampPin, LOW);						//OFF walking gate lamp
 
 }
 
 
 void close(){
-	
+	digitalWrite(lampPin, HIGH);					//ON walking gate lamp
+	digitalWrite(latchPin, HIGH);					//On latch
+	digitalWtite(closeLeftPin, HIGH);				//ON L close
+	delay(delayStep);								//delay 1 sec
+	digitalWrite(closeRightPin, HIGH);				//ON R close
+	delay(delayCicle);
+	digitalWrite(latchPin, LOW);					//OFF latch
+	digitalwrite(closeLeftPin, LOW);				//OFF L close
+	digitalwrite(closeRightPin, LOW);				//OFF R close
+	digitalWrite(lampPin, LOW);						//OFF walking gate lamp
 }
